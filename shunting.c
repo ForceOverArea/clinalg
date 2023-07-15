@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "dlinklist.h"
+#include "stringmanip.h"
 
 /*
 Returns a doubly linked list of the substrings 
@@ -13,6 +14,15 @@ DoublyLinkedList* words(char* expr) {
 	DoublyLinkedList* res = new_doubly_linked_list();
 	if (res == NULL)
 		return NULL;
+
+	char*	spaced = replace(expr, "(", " ( ");
+			spaced = replace(spaced, ")", " ) ");
+			spaced = replace(spaced, "+", " + ");
+			spaced = replace(spaced, "-", " - ");
+			spaced = replace(spaced, "*", " * ");
+			spaced = replace(spaced, "/", " / ");
+			spaced = replace(spaced, "^", " ^ ");
+			spaced = replace(spaced, ",", " , ");
 
 	char* ctx = NULL;							// initialize context variable
 	char delim[] = " ";
@@ -300,7 +310,6 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 			long double value = strtold(token, NULL);
 			push_to_doubly_linked_list_ld(stack, value);
 		}
-
 	}
 
 	long double res = pop_from_doubly_linked_list_ld(stack);
@@ -312,6 +321,7 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 }
 
 long double eval_str(char* expr) {
+
 	return postfix_evaluator(
 		shunting_yard(
 			words(

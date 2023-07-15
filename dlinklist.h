@@ -27,6 +27,10 @@ char* pop_back_from_doubly_linked_list(DoublyLinkedList* d);
 
 void print_doubly_linked_list(DoublyLinkedList* d);
 
+void destroy_doubly_linked_list(DoublyLinkedList* d);
+
+DoublyLinkedList* copy_doubly_linked_list(DoublyLinkedList* d);
+
 struct __ldnode {
 	struct __ldnode* next;
 	struct __ldnode* prev;
@@ -46,3 +50,4 @@ long double pop_from_doubly_linked_list_ld(DoublyLinkedList* d);
 long double pop_back_from_doubly_linked_list_ld(DoublyLinkedList* d);
 
 void print_doubly_linked_list_ld(DoublyLinkedList* d);
+

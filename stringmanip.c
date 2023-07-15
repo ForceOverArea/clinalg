@@ -34,41 +34,39 @@ char* replace(char* string, char* from, char* to) {
 	if (string == NULL || from == NULL || to == NULL)
 		return NULL;
 
-	size_t totlen = strlen(string);
-	size_t frolen = strlen(from);
-	size_t to_len = strlen(to);
-	
-	// get count of how many snr's we need to do...
-	size_t from_count = instances(string, from);
+	size_t	totlen = strlen(string),
+			frolen = strlen(from),
+			to_len = strlen(to),
+			from_count = instances(string, from); // get count of how many snr's we need to do...
 
 	// reallocate memory...
-	size_t newsize = totlen + ((long long)to_len - (long long)frolen) * from_count;
+	int delta = ((long long)to_len - (long long)frolen);
+	size_t newsize = (size_t)((long long)totlen + (delta * (long long)from_count));
 
-	char* res = (char*)malloc(string, newsize);
+	//newsize = totlen;
+	char* res = (char*)malloc(sizeof(char) * (newsize + 1));
 	if (res == NULL) {
 		puts("error: insufficient heap memory for new string...");
 		return NULL;
 	}
-
+	res[newsize] = '\0'; // nul-terminated at initialization. WTF WHY DOES THIS SUDDENLY WORK???!!?!!?
 	char* restmp = res;
-	char* tmp = string;
-	while (*tmp) {
+	for (char* tmp = string; *tmp; tmp++) {
 
 		if (__strcmp_g_inplace(tmp, from)) {
-			
-			char* fromtmp = from;
-			while (*fromtmp) {
-
+			for (char* to_tmp = to; *to_tmp; to_tmp++) {
+				*restmp = *to_tmp;
+				restmp++;
 			}
-
+			for (int i = 1; i < strlen(from); i++)
+				tmp++; // increment pointer on `from` string for each char that was read off the `to` string
 		}
 
 		else {
 			*restmp = *tmp;
-			tmp++;
 			restmp++;
 		}
 	}
-
+	
 	return res;
 }

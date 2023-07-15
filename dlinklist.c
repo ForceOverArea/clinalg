@@ -157,6 +157,18 @@ void destroy_doubly_linked_list(DoublyLinkedList* d) {
 	d = NULL;
 }
 
+DoublyLinkedList* copy_doubly_linked_list(DoublyLinkedList* d) {
+	
+	DoublyLinkedList* res = new_doubly_linked_list();
+	if (!res)
+		return NULL;
+
+	for (snode* tmp = d->head; tmp; tmp = tmp->next)
+		push_back_to_doubly_linked_list(res, tmp->data);
+	
+	return res;
+}
+
 struct __ldnode {
 	struct __ldnode* next;
 	struct __ldnode* prev;
