@@ -26,7 +26,7 @@ DoublyLinkedList* words(char* expr) {
 
 	char* ctx = NULL;							// initialize context variable
 	char delim[] = " ";
-	char* token = strtok_s(expr, delim, &ctx);	// initialize first token
+	char* token = strtok_s(spaced, delim, &ctx);	// initialize first token
 
 	while (token) {
 		push_back_to_doubly_linked_list(res, token);	// push to dll if not null
@@ -219,7 +219,10 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 	
 	while (rpn->head) {
 
+		//print_doubly_linked_list_ld(stack);
+
 		char* token = pop_from_doubly_linked_list(rpn);
+		//printf("token = %s\n\n", token);
 
 		// token is a function
 		if (strcmp_g_batch(token, functions)) {
@@ -272,6 +275,7 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 
 			else {
 				printf("error: found unknown function '%s'. aborting postfix evaluation...\n", token);
+				destroy_doubly_linked_list(stack);
 				return (long double)NAN;
 			}
 
@@ -300,6 +304,7 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 				break;
 			default:
 				printf("error: found unknown binary operator: '%c'. aborting postfix evaluation...\n", *token);
+				destroy_doubly_linked_list(stack);
 				return (long double)NAN;
 				break;
 			}
@@ -316,8 +321,13 @@ long double postfix_evaluator(DoublyLinkedList* rpn) {
 
 	if (stack->head != NULL) {
 		puts("error: leftover items in postfix stack. aborting postfix evaluation...");
-		puts("error: leftover items in postfix stack. aborting postfix evaluation...");
+		destroy_doubly_linked_list(stack);
+		return (long double)NAN;
 	}
+
+	destroy_doubly_linked_list(stack);
+	//printf("returning: %Lf\n\n", res);
+	return res;
 }
 
 long double eval_str(char* expr) {

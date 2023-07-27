@@ -4,6 +4,11 @@
 
 bool strcmp_g(char* s1, char* s2);
 
+bool strcmp_g_batch(char* str, char** strs);
+
+const char* operators[];
+const char* functions[];
+
 DoublyLinkedList* words(char* expr);
 
 DoublyLinkedList* shunting_yard(DoublyLinkedList* infix);
